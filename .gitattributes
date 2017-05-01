@@ -1,0 +1,2 @@
+example_conveniencestore.csv filter=lfs diff=lfs merge=lfs -text
+example_gamedata.csv filter=lfs diff=lfs merge=lfs -text
