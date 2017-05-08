@@ -1,0 +1,112 @@
+```{r echo=F}
+library(rCharts)
+```
+
+```{r}
+DF <- read.csv("example_studentlist2.csv")
+```
+
+```{r}
+levels(DF$sex)[levels(DF$sex)=="남자"] <- "male"
+levels(DF$sex)[levels(DF$sex)=="여자"] <- "female"
+```
+
+```{r}
+h1 <- Highcharts$new()
+h1$chart(type = "spline")
+h1$series(data = c(1, 3, 2, 4, 5, 4, 6, 2, 3, 5, NA), dashStyle = "longdash")
+h1$series(data = c(NA, 4, 1, 3, 4, 2, 9, 1, 2, 3, 4), dashStyle = "shortdot")
+h1$legend(symbolWidth = 80)
+h1
+```
+
+```{r}
+hair_eye_male <- subset(as.data.frame(HairEyeColor), Sex == "Male")
+n1 <- nPlot(Freq ~ Hair, group = "Eye", data = hair_eye_male, 
+  type = 'multiBarChart')
+n1
+```
+
+```{r}
+n1 <- nPlot(height~weight, group='sex', data=DF, type='scatterChart')
+n1
+```
+
+```{r}
+n2 <- nPlot(~bloodtype, data=DF, type='pieChart')
+n2
+```
+
+```{r}
+n2$chart(donut=T)
+n2
+```
+
+```{r}
+DF2 <- DF %>% group_by(bloodtype, sex) %>% summarize(Freq=n())
+DF2
+```
+
+```{r}
+DF2 <- DF %>% group_by(bloodtype, sex) %>% summarize(Freq=n())
+```
+
+```{r}
+n4 <- nPlot(Freq~bloodtype, data=DF2, group='sex', type='multiBarChart')
+n4
+```
+
+```{r}
+n5 <- nPlot(Freq~bloodtype, data=DF2, group='sex', type='multiBarHorizontalChart')
+n5
+```
+
+```{r}
+TS <- read.csv("example_ts2.csv")
+TS$time <- as.Date(TS$time)
+TS2 <- subset(TS, subset=(year==2014))
+n5 <- nPlot(sales~time, data=TS2, type='lineChart')
+n5
+```
+
+```{r}
+n5$xAxis(
+    tickFormat =   "#!
+      function(d) {return d3.time.format('%Y-%m-%d')(new Date(d*1000*3600*24));}
+    !#",
+    rotateLabels = -90
+  )
+n5
+```
+
+```{r}
+TS3 <- read.csv("example_ts3.csv")
+TS3$time <- as.Date(TS3$time)
+n6 <- nPlot(sales~time,  data = TS3, group='product', type = 'stackedAreaChart')
+n6
+```
+
+```{r}
+n6$xAxis(
+    tickFormat =   "#!
+      function(d) {return d3.time.format('%Y-%m-%d')(new Date(d*1000*3600*24));}
+    !#",
+    rotateLabels = -90
+  )
+n6
+```
+
+```{r}
+n7 <- nPlot(sales ~ time, group = 'product', data = TS3, type = 'lineWithFocusChart')
+n7
+```
+
+```{r}
+n7$xAxis(
+    tickFormat =   "#!
+      function(d) {return d3.time.format('%Y-%m-%d')(new Date(d*1000*3600*24));}
+    !#",
+    rotateLabels = -90
+  )
+n7
+```
